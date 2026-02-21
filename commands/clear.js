@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require("discord.js");
+
 module.exports = {
     name: "clear",
 
@@ -15,7 +17,12 @@ module.exports = {
 
         await message.channel.bulkDelete(quantidade, true);
 
-        message.channel.send(`🧹 ${quantidade} mensagens apagadas.`)
-            .then(msg => setTimeout(() => msg.delete(), 3000));
+        const embed = new EmbedBuilder()
+            .setColor("#E74C3C")
+            .setDescription(`🧹 **${quantidade} mensagens apagadas com sucesso!**`)
+            .setTimestamp();
+
+        const msg = await message.channel.send({ embeds: [embed] });
+        setTimeout(() => msg.delete(), 3000);
     }
 };

@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require("discord.js");
+
 module.exports = {
     name: "userinfo",
 
@@ -5,12 +7,17 @@ module.exports = {
 
         const user = message.mentions.users.first() || message.author;
 
-        message.channel.send(`
-👤 **Informações do Usuário**
+        const embed = new EmbedBuilder()
+            .setColor("#2ECC71")
+            .setTitle("👤 Informações do Usuário")
+            .setThumbnail(user.displayAvatarURL())
+            .addFields(
+                { name: "Nome", value: user.username, inline: true },
+                { name: "ID", value: user.id, inline: true },
+                { name: "Conta criada", value: `<t:${Math.floor(user.createdTimestamp / 1000)}:F>` }
+            )
+            .setTimestamp();
 
-Nome: ${user.username}
-ID: ${user.id}
-Conta criada em: <t:${Math.floor(user.createdTimestamp / 1000)}:F>
-        `);
+        message.channel.send({ embeds: [embed] });
     }
 };

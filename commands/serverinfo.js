@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require("discord.js");
+
 module.exports = {
     name: "serverinfo",
 
@@ -5,13 +7,18 @@ module.exports = {
 
         const { guild } = message;
 
-        message.channel.send(`
-🏠 **Informações do Servidor**
+        const embed = new EmbedBuilder()
+            .setColor("#F1C40F")
+            .setTitle("🏠 Informações do Servidor")
+            .setThumbnail(guild.iconURL())
+            .addFields(
+                { name: "Nome", value: guild.name, inline: true },
+                { name: "ID", value: guild.id, inline: true },
+                { name: "Membros", value: `${guild.memberCount}`, inline: true },
+                { name: "Criado em", value: `<t:${Math.floor(guild.createdTimestamp / 1000)}:F>` }
+            )
+            .setTimestamp();
 
-Nome: ${guild.name}
-ID: ${guild.id}
-Membros: ${guild.memberCount}
-Criado em: <t:${Math.floor(guild.createdTimestamp / 1000)}:F>
-        `);
+        message.channel.send({ embeds: [embed] });
     }
 };

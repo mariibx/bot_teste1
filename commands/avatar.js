@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require("discord.js");
+
 module.exports = {
     name: "avatar",
 
@@ -5,9 +7,12 @@ module.exports = {
 
         const user = message.mentions.users.first() || message.author;
 
-        message.channel.send({
-            content: `🖼 Avatar de ${user.username}`,
-            files: [user.displayAvatarURL({ size: 1024 })]
-        });
+        const embed = new EmbedBuilder()
+            .setColor("#00BFFF")
+            .setTitle(`🖼 Avatar de ${user.username}`)
+            .setImage(user.displayAvatarURL({ size: 1024 }))
+            .setTimestamp();
+
+        message.channel.send({ embeds: [embed] });
     }
 };
